@@ -10,11 +10,11 @@ import Vue from "vue";
 export default Vue.extend({
   name: "HelloWorld",
   mounted() {
-    chrome.runtime.sendMessage({});
+    browser.runtime.sendMessage({});
   },
   computed: {
     defaultText() {
-      return chrome.i18n.getMessage("extName");
+      return browser.i18n.getMessage("extName");
     }
   }
 });

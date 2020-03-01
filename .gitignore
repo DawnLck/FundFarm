@@ -20,7 +20,13 @@ yarn-error.log*
 *.sln
 *.sw?
 
+# Vue Browser Extension Output
+*.pem
+*.pub
+*.zip
+/artifacts
+
 # Lock file
-package-lock.json
-yarn.lock 
+
 *.lock
+package-lock.json
