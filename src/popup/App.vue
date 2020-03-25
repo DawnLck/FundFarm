@@ -39,20 +39,23 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import axios from "axios";
+import { API } from "../common/Fund_API";
+
+import Vue from "vue";
+
 import FundTable from "@/components/FundTable.vue";
 import FundSearch from "@/components/FundSearch.vue";
 
 const FUND_TEMPLATE = {
   name: "",
   code: "",
-  coast: "",
-  gainReminder: 0,
-  dropReminder: 10,
-  holding: 0,
-  realtimeWorth: 0,
-  profitEstimates: 0
+  coast: "", // 持有成本价
+  gainReminder: 0, // 涨幅提醒
+  dropReminder: 10, // 跌幅提醒
+  holding: 0, // 持有份额
+  realtimeWorth: 0, // 实时净值
+  profitEstimates: 0 // 盈亏估算
 };
 export default Vue.extend({
   name: "App",
@@ -102,15 +105,55 @@ export default Vue.extend({
       localStorage.setItem(_item.code, JSON.stringify(_item));
     },
 
+    // 获取基金更新后的数据
+    async updateFund(code: string) {
+      const _item = JSON.parse(localStorage.getItem(code) || "{}");
+      const _response = await axios.get(API.fundRealTime, {
+        params: {
+          FCODE: code,
+          deviceid: "Wap",
+          plat: "Wap",
+          product: "EFund",
+          version: "2.0.0"
+        }
+      });
+      const realtimeWorth = _response.data["Datas"]["DWJZ"];
+      const profitEstimates =
+        (parseFloat(realtimeWorth) - parseFloat(_item.coast)) *
+        parseFloat(_item.holding);
+      return {
+        ..._item,
+        realtimeWorth,
+        profitEstimates: profitEstimates.toFixed(2)
+      };
+    },
+
     // 获取自选基金列表
-    getOptionalFunds() {
+    async getOptionalFunds() {
       console.log(`Mounted`);
       const _list = JSON.parse(localStorage.getItem("fund_mylist") || "[]");
       this.userData.fundList = _list;
+      const array = [];
 
-      const array = _list.reduce((prev: any, curr: any) => {
-        return [...prev, JSON.parse(localStorage.getItem(curr) || "{}")];
-      }, []);
+      for (let i = 0, _length = _list.length; i < _length; i++) {
+        array.push(await this.updateFund(_list[i]));
+      }
+
+      // const array = await _list.reduce(async (prev: any, curr: any) => {
+      //   const _item = JSON.parse(localStorage.getItem(curr) || "{}");
+      //   const _response = await axios.get(API.fundRealTime, {
+      //     params: {
+      //       FCODE: curr,
+      //       deviceid: "Wap",
+      //       plat: "Wap",
+      //       product: "EFund",
+      //       version: "2.0.0"
+      //     }
+      //   });
+      //   _item.realtimeWorth = _response.data["Datas"]["DWJZ"];
+      //   console.log(prev, _item);
+      //   return [...prev, _item];
+      // }, []);
 
       console.log({ array });
       // this.$set( this.userData.fundArray, array);

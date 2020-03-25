@@ -5,7 +5,9 @@
 
 export const API = {
   fundSearch:
-    "http://fundsuggest.eastmoney.com/FundSearch/api/FundSearchAPI.ashx?"
+    "http://fundsuggest.eastmoney.com/FundSearch/api/FundSearchAPI.ashx?",
+  fundRealTime:
+    "https://fundmobapi.eastmoney.com/FundMApi/FundBaseTypeInformation.ashx?"
 };
 
 export const fund_template = [

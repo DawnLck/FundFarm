@@ -7,6 +7,7 @@
   "permissions": [
     "<all_urls>",
     "*://*/*",
+    "http://eastmoney.com/",
     "http://fund.eastmoney.com/*",
     "http://fundsuggest.eastmoney.com/*"
   ],

@@ -62,19 +62,16 @@
       </el-table-column>
       <!-- 实时分析 -->
       <el-table-column
-        prop="address"
+        prop="realtimeWorth"
         label="实时价值"
       > </el-table-column>
       <el-table-column
-        prop="address"
+        prop="profitEstimates"
         label="盈亏估算"
       > </el-table-column>
 
       <!-- 操作 -->
-      <el-table-column
-        prop="address"
-        label="操作"
-      >
+      <el-table-column label="操作">
         <template slot-scope="{row}">
           <div>
             <el-button
