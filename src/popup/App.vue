@@ -9,7 +9,10 @@
       </div>
 
       <div class="ext-header-options">
-        <fund-search @addNewFund="addFund"></fund-search>
+        <fund-search
+          @addNewFund="addFund"
+          @saveFund="saveFund"
+        ></fund-search>
         <el-button @click="refresh()">
           <i class="el-icon-refresh"></i>
           刷新
@@ -39,11 +42,14 @@
 </template>
 
 <script lang="ts">
-import axios from "axios";
+// global
 import { API } from "../common/Fund_API";
-
+import Banner from "../common/Banner";
+// libs
+import axios from "axios";
 import Vue from "vue";
-
+import ColorConsole from "../common/ColorConsole";
+// components
 import FundTable from "@/components/FundTable.vue";
 import FundSearch from "@/components/FundSearch.vue";
 
@@ -76,12 +82,31 @@ export default Vue.extend({
   methods: {
     /**
      * Localstorage
+     * @method updateMyOptionalFundList 更新自选基金列表
+     * @method getLocalOptionalFundList 获取本地自选基金列表
+     * @method getLocalFundsInfo 获取本地基金列表信息
      */
     updateMyOptionalFundList() {
       localStorage.setItem(
         "fund_mylist",
         JSON.stringify(this.userData.fundList)
       );
+    },
+    getLocalOptionalFundList() {
+      this.userData.fundList = JSON.parse(
+        localStorage.getItem("fund_mylist") || "[]"
+      );
+    },
+    getLocalFundsInfo() {
+      ColorConsole.blue("# 获取本地基金列表信息 #");
+      const _list = this.userData.fundList;
+      console.log({ _list });
+      const _array = _list.reduce((prev: any, curr: string) => {
+        return [...prev, JSON.parse(localStorage.getItem(curr) || "")];
+      }, []);
+
+      console.log({ _array });
+      this.userData.fundArray = _array;
     },
 
     /**
@@ -105,12 +130,17 @@ export default Vue.extend({
       localStorage.setItem(_item.code, JSON.stringify(_item));
     },
 
+    async saveFund(targetCode: any) {
+      const _callback = await this.updateFund(targetCode);
+      console.log(_callback);
+    },
+
     // 获取基金更新后的数据
-    async updateFund(code: string) {
-      const _item = JSON.parse(localStorage.getItem(code) || "{}");
+    async updateFund(item: any) {
+      // const item = JSON.parse(localStorage.getItem(code) || "{}");
       const _response = await axios.get(API.fundRealTime, {
         params: {
-          FCODE: code,
+          FCODE: item.code,
           deviceid: "Wap",
           plat: "Wap",
           product: "EFund",
@@ -119,13 +149,21 @@ export default Vue.extend({
       });
       const realtimeWorth = _response.data["Datas"]["DWJZ"];
       const profitEstimates =
-        (parseFloat(realtimeWorth) - parseFloat(_item.coast)) *
-        parseFloat(_item.holding);
-      return {
-        ..._item,
+        (parseFloat(realtimeWorth) - parseFloat(item.coast)) *
+        parseFloat(item.holding);
+      const _callback = {
+        ...item,
         realtimeWorth,
         profitEstimates: profitEstimates.toFixed(2)
       };
+      localStorage.setItem(item.code, JSON.stringify(_callback));
+      return _callback;
+    },
+
+    updateAll() {
+      this.userData.fundArray.forEach(async item => {
+        item = await this.updateFund(item);
+      });
     },
 
     // 获取自选基金列表
@@ -178,7 +216,11 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.getOptionalFunds();
+    ColorConsole.red(Banner);
+    // this.getOptionalFunds();
+    this.getLocalOptionalFundList();
+    this.getLocalFundsInfo();
+    this.updateAll();
   }
 });
 </script>

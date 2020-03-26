@@ -96,6 +96,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { ColorConsole } from "../common/ColorConsole";
 
 export default Vue.extend({
   name: "FundTable",
@@ -107,12 +108,13 @@ export default Vue.extend({
   },
   mounted() {
     // browser.runtime.sendMessage({});
-    console.log(this.tableData);
+    // console.log(this.tableData);
   },
   methods: {
     saveItem(target: any) {
-      console.log(`Save fund: ${target.code}`, target);
-      localStorage.setItem(target.code, JSON.stringify(target));
+      ColorConsole.red(`Save fund: ${target.code}`);
+      // localStorage.setItem(target.code, JSON.stringify(target));
+      this.$emit("saveItem", target.code);
     },
     deleteItem(target: any) {
       // localStorage.removeItem(target.code);

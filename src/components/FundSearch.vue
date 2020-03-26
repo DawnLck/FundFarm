@@ -57,7 +57,7 @@ export default Vue.extend({
           }
         })
         .then(function(response: any) {
-          console.log(response);
+          console.log({ response });
 
           response.data["Datas"].forEach((element: any) => {
             element["value"] = element.NAME || element.FundName;
