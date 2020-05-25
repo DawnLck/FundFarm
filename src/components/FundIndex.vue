@@ -1,65 +1,42 @@
 <template>
-  <el-row
-    class="fund-index"
-    :gutter="20"
-  >
-    <el-col
-      :span="6"
-      :class="shangZheng.wave.value >0 ?'fund-up':'fund-down'"
-    >
-      <div class="grid-content">
+  <el-row class="fund-index" :gutter="20">
+    <el-col :span="6" :class="shangZheng && shangZheng.wave.value >0 ?'fund-up':'fund-down'">
+      <div class="grid-content" v-if="shangZheng">
         <h2 class="fund-index-title">上证指数</h2>
-        <h3 class="fund-index-price">
-          {{shangZheng.price}}
-        </h3>
+        <h3 class="fund-index-price">{{shangZheng.price}}</h3>
         <div class="fund-index-wave">
-          <span class="fund-index-wave-value"> {{shangZheng.wave.value}}</span>
-          <span class="fund-index-wave-percent"> {{shangZheng.wave.percent}}%</span>
+          <span class="fund-index-wave-value">{{shangZheng.wave.value}}</span>
+          <span class="fund-index-wave-percent">{{shangZheng.wave.percent}}</span>
         </div>
       </div>
     </el-col>
-    <el-col
-      :span="6"
-      :class="huSheng.wave.value >0 ?'fund-up':'fund-down'"
-    >
-      <div class="grid-content">
+    <el-col :span="6" :class="huSheng && huSheng.wave.value >0 ?'fund-up':'fund-down'">
+      <div class="grid-content" v-if="huSheng">
         <h2 class="fund-index-title">沪深300指</h2>
-        <h3 class="fund-index-price">
-          {{shangZheng.price}}
-        </h3>
+        <h3 class="fund-index-price">{{huSheng.price}}</h3>
         <div class="fund-index-wave">
-          <span class="fund-index-wave-value"> {{huSheng.wave.value}}</span>
-          <span class="fund-index-wave-percent"> {{huSheng.wave.percent}}</span>
+          <span class="fund-index-wave-value">{{huSheng.wave.value}}</span>
+          <span class="fund-index-wave-percent">{{huSheng.wave.percent}}</span>
         </div>
       </div>
     </el-col>
-    <el-col
-      :span="6"
-      :class="shengZheng.wave.value >0 ?'fund-up':'fund-down'"
-    >
-      <div class="grid-content">
+    <el-col :span="6" :class="shengZheng && shengZheng.wave.value >0 ?'fund-up':'fund-down'">
+      <div class="grid-content" v-if="shengZheng">
         <h2 class="fund-index-title">深证指数</h2>
-        <h3 class="fund-index-price">
-          {{shangZheng.price}}
-        </h3>
+        <h3 class="fund-index-price">{{shangZheng.price}}</h3>
         <div class="fund-index-wave">
-          <span class="fund-index-wave-value"> {{shengZheng.wave.value}}</span>
-          <span class="fund-index-wave-percent"> {{shengZheng.wave.percent}}</span>
+          <span class="fund-index-wave-value">{{shengZheng.wave.value}}</span>
+          <span class="fund-index-wave-percent">{{shengZheng.wave.percent}}</span>
         </div>
       </div>
     </el-col>
-    <el-col
-      :span="6"
-      :class="chaungYe.wave.value >0 ?'fund-up':'fund-down'"
-    >
-      <div class="grid-content">
+    <el-col :span="6" :class="chuangYe && chuangYe.wave.value >0 ?'fund-up':'fund-down'">
+      <div class="grid-content" v-if="chuangYe">
         <h2 class="fund-index-title">创业板指数</h2>
-        <h3 class="fund-index-price">
-          {{chaungYe.price}}
-        </h3>
+        <h3 class="fund-index-price">{{chuangYe.price}}</h3>
         <div class="fund-index-wave">
-          <span class="fund-index-wave-value"> {{chaungYe.wave.value}}</span>
-          <span class="fund-index-wave-percent"> {{chaungYe.wave.percent}}</span>
+          <span class="fund-index-wave-value">{{chuangYe.wave.value}}</span>
+          <span class="fund-index-wave-percent">{{chuangYe.wave.percent}}</span>
         </div>
       </div>
     </el-col>
@@ -77,9 +54,26 @@ function normalizeData(data: any) {
     price: data["f2"],
     wave: {
       value: parseFloat(data["f4"]),
-      percent: parseFloat(data["f3"])
+      percent: `${parseFloat(data["f3"])}%`
     }
   };
+}
+
+function saveFundIndex(data: any) {
+  localStorage.saveItem(
+    "FundIndex",
+    JSON.stringify({
+      shangZheng: data.shangZheng,
+      husheng: data.husheng,
+      shengZheng: data.shengZheng,
+      chuangYe: data.chuangYe
+    })
+  );
+}
+
+function getFundIndex(): any {
+  console.log("getFundIndex");
+  return JSON.parse(localStorage.getItem("FundIndex") || "{}");
 }
 
 export default Vue.extend({
@@ -91,7 +85,7 @@ export default Vue.extend({
         price: "",
         wave: {
           value: 0,
-          percent: 0
+          percent: "0%"
         }
       },
       huSheng: {
@@ -99,7 +93,7 @@ export default Vue.extend({
         price: "",
         wave: {
           value: 0,
-          percent: 0
+          percent: "0%"
         }
       },
       shengZheng: {
@@ -107,21 +101,36 @@ export default Vue.extend({
         price: "",
         wave: {
           value: 0,
-          percent: 0
+          percent: "0%"
         }
       },
-      chaungYe: {
+      chuangYe: {
         title: "创业版指",
         price: "",
         wave: {
           value: 0,
-          percent: 0
+          percent: "0%"
         }
       }
     };
   },
   mounted() {
     console.log("FundIndex Mount");
+
+    const _storageFundIndex = getFundIndex();
+    console.log(_storageFundIndex);
+    console.log(typeof _storageFundIndex);
+    console.log(_storageFundIndex.length);
+    if (_storageFundIndex && _storageFundIndex.shangZheng) {
+      console.log("hello");
+      this.$data.shangZheng = _storageFundIndex.shangZheng;
+      this.$data.huSheng = _storageFundIndex.huSheng;
+      this.$data.shengZheng = _storageFundIndex.shengZheng;
+      this.$data.chuangYe = _storageFundIndex.chuangYe;
+    }
+
+    console.log(this.$data);
+
     const _response = axios
       .get(API.fundIndex, {})
       .then(data => {
@@ -131,11 +140,14 @@ export default Vue.extend({
         this.$data.shangZheng = normalizeData(_dataDiff[0]);
         this.$data.huSheng = normalizeData(_dataDiff[2]);
         this.$data.shengZheng = normalizeData(_dataDiff[7]);
-        this.$data.chaungYe = normalizeData(_dataDiff[1]);
+        this.$data.chuangYe = normalizeData(_dataDiff[1]);
+
+        saveFundIndex(this.$data);
       })
       .catch(error => {
         console.log(error);
       });
+    console.log({ _response });
   },
   computed: {}
 });

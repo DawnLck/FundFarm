@@ -1,30 +1,16 @@
 <template>
   <el-container class="ext-popup-container">
-    <el-header
-      :class="'ext-header'"
-      height="auto"
-    >
-      <div class="ext-header-title">
-        养基场🐤
-      </div>
+    <el-header :class="'ext-header'" height="auto">
+      <div class="ext-header-title">养基场🐤</div>
 
       <div class="ext-header-options">
-        <fund-search
-          @addNewFund="addFund"
-          @saveFund="saveFund"
-        ></fund-search>
+        <fund-search @addNewFund="addFund" @saveFund="saveFund"></fund-search>
         <el-button @click="refresh()">
           <i class="el-icon-refresh"></i>
           刷新
         </el-button>
         <el-button class="hidden-lg-and-up">
-          <el-link
-            icon="el-icon-full-screen"
-            href="./popup.html"
-            target="_blank"
-          >
-            全屏
-          </el-link>
+          <el-link icon="el-icon-full-screen" href="./popup.html" target="_blank">全屏</el-link>
         </el-button>
       </div>
     </el-header>
@@ -202,7 +188,11 @@ export default Vue.extend({
     },
 
     // 保存自选基金
-    saveOptionalFund(target: string) {},
+    saveOptionalFund(target: any) {
+      console.log("saveOptionalFund", { target });
+      localStorage.setItem(target.code, JSON.stringify(target));
+      return true;
+    },
     // 删除自选基金
     deleteOptionalFund(target: string) {
       console.log(`Delete target: {${typeof target}}  ${target}`);

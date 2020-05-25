@@ -2,12 +2,10 @@
   <el-col :span="6">
     <div class="grid-content">
       <h2 class="fund-index-title">上证指数</h2>
-      <h3 class="fund-index-price">
-        {{fundIndex[0].price}}
-      </h3>
+      <h3 class="fund-index-price">{{fundIndex[0].price}}</h3>
       <div class="fund-index-wave">
-        <span class="fund-index-wave-value"> {{fundIndex[0].wave.value}}</span>
-        <span class="fund-index-wave-percent"> {{fundIndex[0].wave.percent}}</span>
+        <span class="fund-index-wave-value">{{fundIndex[0].wave.value}}</span>
+        <span class="fund-index-wave-percent">{{fundIndex[0].wave.percent}}</span>
       </div>
     </div>
   </el-col>
@@ -23,7 +21,9 @@ export default Vue.extend({
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {
+    console.log("Mounted");
+  },
   computed: {}
 });
 </script>
