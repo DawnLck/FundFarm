@@ -28,7 +28,7 @@
 <script lang="ts">
 import Vue from "vue";
 import axios from "axios";
-import { API } from "../common/Fund_API";
+import { API } from "../global/api/fundApi";
 export default Vue.extend({
   name: "FundSearch",
   props: [],
@@ -82,7 +82,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="less">
-@import "../common/color";
+// @import "../common/less/color";
 .fund-search {
   margin-right: 10px;
   &-autocomplete {

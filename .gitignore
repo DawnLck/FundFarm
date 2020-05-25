@@ -30,3 +30,5 @@ yarn-error.log*
 
 *.lock
 package-lock.json
+
+*.log

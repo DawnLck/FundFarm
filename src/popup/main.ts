@@ -1,5 +1,10 @@
+/**
+ * Popup - main.ts
+ */
 import Vue from "vue";
 import App from "./App.vue";
+
+import "../global/less/global.less";
 
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
@@ -12,5 +17,5 @@ Vue.use(ElementUI);
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
-  render: h => h(App)
+  render: (h) => h(App),
 });

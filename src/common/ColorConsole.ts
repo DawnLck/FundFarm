@@ -10,7 +10,7 @@ const COLOR: { [key: string]: string } = {
 };
 
 function consoleFactory(color: string) {
-  return (message: string | String) => {
+  return (message: string | string) => {
     console.log(`%c ${message}`, `color:${COLOR[color]}`);
   };
 }

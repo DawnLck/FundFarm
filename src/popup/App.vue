@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container class="ext-popup-container">
     <el-header
       :class="'ext-header'"
       height="auto"
@@ -29,8 +29,10 @@
       </div>
     </el-header>
     <el-main>
+      <fund-index></fund-index>
       <fund-table
         :tableData="userData.fundArray"
+        @saveItem="saveOptionalFund"
         @deleteItem="deleteOptionalFund"
       />
     </el-main>
@@ -43,7 +45,7 @@
 
 <script lang="ts">
 // global
-import { API } from "../common/Fund_API";
+import { API } from "../global/api/fundApi";
 import Banner from "../common/Banner";
 // libs
 import axios from "axios";
@@ -52,6 +54,7 @@ import ColorConsole from "../common/ColorConsole";
 // components
 import FundTable from "@/components/FundTable.vue";
 import FundSearch from "@/components/FundSearch.vue";
+import FundIndex from "@/components/FundIndex.vue";
 
 const FUND_TEMPLATE = {
   name: "",
@@ -65,7 +68,7 @@ const FUND_TEMPLATE = {
 };
 export default Vue.extend({
   name: "App",
-  components: { FundTable, FundSearch },
+  components: { FundTable, FundSearch, FundIndex },
   data(): {
     userData: {
       fundList: string[];
@@ -198,7 +201,9 @@ export default Vue.extend({
       this.userData.fundArray = array;
     },
 
-    // 删除自选基金列表
+    // 保存自选基金
+    saveOptionalFund(target: string) {},
+    // 删除自选基金
     deleteOptionalFund(target: string) {
       console.log(`Delete target: {${typeof target}}  ${target}`);
       const _index = this.userData.fundList.indexOf(target);
@@ -226,17 +231,22 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-@import "../common/color";
+// @import "../common/color";
 html {
   width: auto;
   height: auto;
   max-height: 800px;
 }
 body {
+  text-align: center;
   margin: 0;
   padding: 0.5rem 0;
 }
 .ext {
+  &-popup-container {
+    display: inline-block;
+    max-width: 900px;
+  }
   &-header {
     font-size: 14px;
     .el-link {
