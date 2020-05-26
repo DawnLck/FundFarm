@@ -2,6 +2,7 @@
   <el-row class="fund-index" :gutter="20" v-show="dataValid">
     <el-col
       :span="6"
+      class="fund-index-card"
       :class="shangZheng && shangZheng.wave.value > 0 ? 'fund-up' : 'fund-down'"
     >
       <div class="grid-content" v-if="shangZheng">
@@ -17,6 +18,7 @@
     </el-col>
     <el-col
       :span="6"
+      class="fund-index-card"
       :class="huSheng && huSheng.wave.value > 0 ? 'fund-up' : 'fund-down'"
     >
       <div class="grid-content" v-if="huSheng">
@@ -32,6 +34,7 @@
     </el-col>
     <el-col
       :span="6"
+      class="fund-index-card"
       :class="shengZheng && shengZheng.wave.value > 0 ? 'fund-up' : 'fund-down'"
     >
       <div class="grid-content" v-if="shengZheng">
@@ -47,6 +50,7 @@
     </el-col>
     <el-col
       :span="6"
+      class="fund-index-card"
       :class="chuangYe && chuangYe.wave.value > 0 ? 'fund-up' : 'fund-down'"
     >
       <div class="grid-content" v-if="chuangYe">
@@ -182,6 +186,14 @@ export default Vue.extend({
   }
   &-title {
     margin: 1rem 0;
+  }
+  &-card {
+    .grid-content {
+      padding: 8px;
+      background: white;
+      border-radius: 4px;
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
   }
 }
 </style>
