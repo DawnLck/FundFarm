@@ -1,42 +1,62 @@
 <template>
   <el-row class="fund-index" :gutter="20">
-    <el-col :span="6" :class="shangZheng && shangZheng.wave.value >0 ?'fund-up':'fund-down'">
+    <el-col
+      :span="6"
+      :class="shangZheng && shangZheng.wave.value > 0 ? 'fund-up' : 'fund-down'"
+    >
       <div class="grid-content" v-if="shangZheng">
         <h2 class="fund-index-title">上证指数</h2>
-        <h3 class="fund-index-price">{{shangZheng.price}}</h3>
+        <h3 class="fund-index-price">{{ shangZheng.price }}</h3>
         <div class="fund-index-wave">
-          <span class="fund-index-wave-value">{{shangZheng.wave.value}}</span>
-          <span class="fund-index-wave-percent">{{shangZheng.wave.percent}}</span>
+          <span class="fund-index-wave-value">{{ shangZheng.wave.value }}</span>
+          <span class="fund-index-wave-percent">{{
+            shangZheng.wave.percent
+          }}</span>
         </div>
       </div>
     </el-col>
-    <el-col :span="6" :class="huSheng && huSheng.wave.value >0 ?'fund-up':'fund-down'">
+    <el-col
+      :span="6"
+      :class="huSheng && huSheng.wave.value > 0 ? 'fund-up' : 'fund-down'"
+    >
       <div class="grid-content" v-if="huSheng">
         <h2 class="fund-index-title">沪深300指</h2>
-        <h3 class="fund-index-price">{{huSheng.price}}</h3>
+        <h3 class="fund-index-price">{{ huSheng.price }}</h3>
         <div class="fund-index-wave">
-          <span class="fund-index-wave-value">{{huSheng.wave.value}}</span>
-          <span class="fund-index-wave-percent">{{huSheng.wave.percent}}</span>
+          <span class="fund-index-wave-value">{{ huSheng.wave.value }}</span>
+          <span class="fund-index-wave-percent">{{
+            huSheng.wave.percent
+          }}</span>
         </div>
       </div>
     </el-col>
-    <el-col :span="6" :class="shengZheng && shengZheng.wave.value >0 ?'fund-up':'fund-down'">
+    <el-col
+      :span="6"
+      :class="shengZheng && shengZheng.wave.value > 0 ? 'fund-up' : 'fund-down'"
+    >
       <div class="grid-content" v-if="shengZheng">
         <h2 class="fund-index-title">深证指数</h2>
-        <h3 class="fund-index-price">{{shangZheng.price}}</h3>
+        <h3 class="fund-index-price">{{ shangZheng.price }}</h3>
         <div class="fund-index-wave">
-          <span class="fund-index-wave-value">{{shengZheng.wave.value}}</span>
-          <span class="fund-index-wave-percent">{{shengZheng.wave.percent}}</span>
+          <span class="fund-index-wave-value">{{ shengZheng.wave.value }}</span>
+          <span class="fund-index-wave-percent">{{
+            shengZheng.wave.percent
+          }}</span>
         </div>
       </div>
     </el-col>
-    <el-col :span="6" :class="chuangYe && chuangYe.wave.value >0 ?'fund-up':'fund-down'">
+    <el-col
+      :span="6"
+      :class="chuangYe && chuangYe.wave.value > 0 ? 'fund-up' : 'fund-down'"
+    >
       <div class="grid-content" v-if="chuangYe">
         <h2 class="fund-index-title">创业板指数</h2>
-        <h3 class="fund-index-price">{{chuangYe.price}}</h3>
+        <h3 class="fund-index-price">{{ chuangYe.price }}</h3>
         <div class="fund-index-wave">
-          <span class="fund-index-wave-value">{{chuangYe.wave.value}}</span>
-          <span class="fund-index-wave-percent">{{chuangYe.wave.percent}}</span>
+          <span class="fund-index-wave-value">{{ chuangYe.wave.value }}</span>
+          <span class="fund-index-wave-percent">{{
+            chuangYe.wave.percent
+          }}</span>
         </div>
       </div>
     </el-col>
