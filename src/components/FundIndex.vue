@@ -1,5 +1,5 @@
 <template>
-  <el-row class="fund-index" :gutter="20">
+  <el-row class="fund-index" :gutter="20" v-show="dataValid">
     <el-col
       :span="6"
       :class="shangZheng && shangZheng.wave.value > 0 ? 'fund-up' : 'fund-down'"
@@ -100,6 +100,7 @@ export default Vue.extend({
   name: "fundIndex",
   data() {
     return {
+      dataValid: false,
       shangZheng: {
         title: "上证指数",
         price: "",
@@ -138,18 +139,13 @@ export default Vue.extend({
     console.log("FundIndex Mount");
 
     const _storageFundIndex = getFundIndex();
-    console.log(_storageFundIndex);
-    console.log(typeof _storageFundIndex);
-    console.log(_storageFundIndex.length);
     if (_storageFundIndex && _storageFundIndex.shangZheng) {
-      console.log("hello");
       this.$data.shangZheng = _storageFundIndex.shangZheng;
       this.$data.huSheng = _storageFundIndex.huSheng;
       this.$data.shengZheng = _storageFundIndex.shengZheng;
       this.$data.chuangYe = _storageFundIndex.chuangYe;
+      this.$data.dataValid = true;
     }
-
-    console.log(this.$data);
 
     const _response = axios
       .get(API.fundIndex, {})
@@ -161,6 +157,8 @@ export default Vue.extend({
         this.$data.huSheng = normalizeData(_dataDiff[2]);
         this.$data.shengZheng = normalizeData(_dataDiff[7]);
         this.$data.chuangYe = normalizeData(_dataDiff[1]);
+
+        this.$data.dataValid = true;
 
         saveFundIndex(this.$data);
       })
