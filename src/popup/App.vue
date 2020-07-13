@@ -10,7 +10,12 @@
           刷新
         </el-button>
         <el-button class="hidden-lg-and-up">
-          <el-link icon="el-icon-full-screen" href="./popup.html" target="_blank">全屏</el-link>
+          <el-link
+            icon="el-icon-full-screen"
+            href="./popup.html"
+            target="_blank"
+            >全屏</el-link
+          >
         </el-button>
       </div>
     </el-header>
@@ -40,7 +45,7 @@ import ColorConsole from "../common/ColorConsole";
 // components
 import FundTable from "@/components/FundTable.vue";
 import FundSearch from "@/components/FundSearch.vue";
-import FundIndex from "@/components/FundIndex.vue";
+import FundIndex from "@/modules/FundIndex.vue";
 
 const FUND_TEMPLATE = {
   name: "",
@@ -125,7 +130,7 @@ export default Vue.extend({
     },
 
     // 获取基金更新后的数据
-    async updateFund(item: any) {
+    async updateFund(item: any): Promise<any> {
       // const item = JSON.parse(localStorage.getItem(code) || "{}");
       const _response = await axios.get(API.fundRealTime, {
         params: {
@@ -146,12 +151,13 @@ export default Vue.extend({
         profitEstimates: profitEstimates.toFixed(2)
       };
       localStorage.setItem(item.code, JSON.stringify(_callback));
+      item = _callback;
       return _callback;
     },
 
     updateAll() {
       this.userData.fundArray.forEach(async item => {
-        item = await this.updateFund(item);
+        await this.updateFund(item);
       });
     },
 
@@ -160,7 +166,7 @@ export default Vue.extend({
       console.log(`Mounted`);
       const _list = JSON.parse(localStorage.getItem("fund_mylist") || "[]");
       this.userData.fundList = _list;
-      const array = [];
+      const array = [] as Array<any>;
 
       for (let i = 0, _length = _list.length; i < _length; i++) {
         array.push(await this.updateFund(_list[i]));

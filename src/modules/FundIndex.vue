@@ -10,9 +10,9 @@
         <h3 class="fund-index-price">{{ shangZheng.price }}</h3>
         <div class="fund-index-wave">
           <span class="fund-index-wave-value">{{ shangZheng.wave.value }}</span>
-          <span class="fund-index-wave-percent">{{
-            shangZheng.wave.percent
-          }}</span>
+          <span class="fund-index-wave-percent"
+            >( {{ shangZheng.wave.percent }} )</span
+          >
         </div>
       </div>
     </el-col>
@@ -26,9 +26,9 @@
         <h3 class="fund-index-price">{{ huSheng.price }}</h3>
         <div class="fund-index-wave">
           <span class="fund-index-wave-value">{{ huSheng.wave.value }}</span>
-          <span class="fund-index-wave-percent">{{
-            huSheng.wave.percent
-          }}</span>
+          <span class="fund-index-wave-percent">
+            {{ huSheng.wave.percent }}
+          </span>
         </div>
       </div>
     </el-col>
@@ -42,9 +42,9 @@
         <h3 class="fund-index-price">{{ shangZheng.price }}</h3>
         <div class="fund-index-wave">
           <span class="fund-index-wave-value">{{ shengZheng.wave.value }}</span>
-          <span class="fund-index-wave-percent">{{
-            shengZheng.wave.percent
-          }}</span>
+          <span class="fund-index-wave-percent">
+            {{ shengZheng.wave.percent }}
+          </span>
         </div>
       </div>
     </el-col>
@@ -58,9 +58,9 @@
         <h3 class="fund-index-price">{{ chuangYe.price }}</h3>
         <div class="fund-index-wave">
           <span class="fund-index-wave-value">{{ chuangYe.wave.value }}</span>
-          <span class="fund-index-wave-percent">{{
-            chuangYe.wave.percent
-          }}</span>
+          <span class="fund-index-wave-percent">
+            {{ chuangYe.wave.percent }}
+          </span>
         </div>
       </div>
     </el-col>
@@ -157,10 +157,12 @@ export default Vue.extend({
         const _data = data && data["data"] && data["data"]["data"];
         const _dataDiff = _data.diff;
 
-        this.$data.shangZheng = normalizeData(_dataDiff[0]);
-        this.$data.huSheng = normalizeData(_dataDiff[2]);
-        this.$data.shengZheng = normalizeData(_dataDiff[7]);
-        this.$data.chuangYe = normalizeData(_dataDiff[1]);
+        if (_dataDiff) {
+          this.$data.shangZheng = normalizeData(_dataDiff[0]);
+          this.$data.huSheng = normalizeData(_dataDiff[2]);
+          this.$data.shengZheng = normalizeData(_dataDiff[7]);
+          this.$data.chuangYe = normalizeData(_dataDiff[1]);
+        }
 
         this.$data.dataValid = true;
 
